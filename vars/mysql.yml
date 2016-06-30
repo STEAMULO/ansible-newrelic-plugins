@@ -1,0 +1,15 @@
+---
+
+newrelic_install_path: "/opt/newrelic"
+
+newrelic_plugin_version: "2.0.0"
+newrelic_plugin_filename: "newrelic_mysql_plugin-{{ newrelic_plugin_version }}.tar.gz"
+newrelic_plugin_download_url: "https://raw.github.com/newrelic-platform/newrelic_mysql_java_plugin/master/dist/{{ newrelic_plugin_filename }}"
+newrelic_plugin_user: "root"
+newrelic_plugin_path: "{{ newrelic_install_path }}/newrelic-mysql-plugin"
+newrelic_plugin_java_options: "-Xmx128m"
+
+newrelic_plugin_name: "MySQL"
+newrelic_plugin_service: "newrelic-mysql-plugin"
+newrelic_plugin_daemon: "plugin.jar"
+newrelic_plugin_run_command: "java {{ newrelic_plugin_java_options }} -jar"

@@ -1,0 +1,54 @@
+---
+- include_vars: mysql.yml
+
+- name: mysql | create installation directory
+  file:
+    path="{{ newrelic_install_path }}"
+    state="directory"
+    mode="0755"
+    owner="{{ newrelic_plugin_user }}"
+
+- name: mysql | download mysql plugin
+  get_url:
+    url="{{ newrelic_plugin_download_url }}"
+    dest="{{ newrelic_install_path }}/{{ newrelic_plugin_filename }}"
+    mode="0644"
+
+- name: mysql | create plugin directory
+  file:
+    path="{{ newrelic_plugin_path }}"
+    state="directory"
+    mode="0755"
+    owner="{{ newrelic_plugin_user }}"
+
+- name: mysql | unpack plugin
+  command: tar -zxf {{ newrelic_install_path }}/{{ newrelic_plugin_filename }} -C {{ newrelic_plugin_path }} --strip-components 1 --overwrite --overwrite-dir
+    creates="{{ newrelic_plugin_path }}/plugin.jar"
+
+- name: mysql | configure newrelic
+  template:
+    src="mysql/newrelic.json.j2"
+    dest="{{ newrelic_plugin_path }}/config/newrelic.json"
+    mode="0644"
+    owner="{{ newrelic_plugin_user }}"
+
+- name: mysql | configure newrelic mysql plugin
+  template:
+    src="mysql/plugin.json.j2"
+    dest="{{ newrelic_plugin_path }}/config/plugin.json"
+    mode="0644"
+    owner="{{ newrelic_plugin_user }}"
+
+- name: mysql | configure service
+  template:
+    src="service.j2"
+    dest="/etc/init.d/{{ newrelic_plugin_service }}"
+    mode="0755"
+    owner="root"
+    group="root"
+
+- name: mysql | enable service
+  service:
+    name="{{ newrelic_plugin_service }}"
+    enabled="yes"
+    state="started"

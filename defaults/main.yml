@@ -1,2 +1,11 @@
 ---
-# defaults file for ansible-newrelic-plugins
+
+newrelic_plugin_list: ["mysql"]
+newrelic_license_key: "1"
+
+newrelic_mysql_servers:
+  - name: "localhost"
+    host: "localhost"
+    metrics: "status,newrelic,master"
+    mysql_user: "mysql"
+    mysql_passwd: ""
