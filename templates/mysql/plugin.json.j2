@@ -1,0 +1,17 @@
+{
+  "agents": [
+    {% for server in newrelic_mysql_servers %}
+        {
+            "name"    : "{{ server.name }}",
+            "host"    : "{{ server.host }}",
+            "metrics" : "{{ server.metrics }}",
+            {% if server.mysql_user %}
+                "user"    : "{{ server.mysql_user }}",
+            {% endif %}
+            {% if server.mysql_passwd %}
+                "passwd"  : "{{ server.mysql_passwd }}"
+            {% endif %}
+        }
+    {% endfor %}
+  ]
+}
