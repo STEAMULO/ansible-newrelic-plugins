@@ -38,3 +38,10 @@ Example Playbook
 
 
 HelloFresh - More Than Food.
+
+Author Information
+------------------
+
+Steamulo - www.steamulo.com
+
+Forked from [hellofresh](https://github.com/hellofresh)
